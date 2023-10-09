@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using xChanger.Api.Brokers.Storages;
 
 namespace xChanger.Api
 {
@@ -17,6 +18,8 @@ namespace xChanger.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<StorageBroker>();
+            services.AddTransient<IStorageBroker, StorageBroker>();
 
             var apiInfo = new OpenApiInfo
             {
