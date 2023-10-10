@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using xChanger.Api.Models.Applicants;
 
@@ -8,14 +11,14 @@ namespace xChanger.Api.Brokers.Storages
     {
         public DbSet<Applicant> Applicants { get; set; }
 
-        public async ValueTask<Applicant> InsertApplicantAsync(Applicant applicant)
+        public async Task<IQueryable<Applicant>> InsertApplicantAsync(IEnumerable<Applicant> applicants)
         {
             using var broker = new StorageBroker(this.configuration);
 
-            var applicantEntityEntry = await broker.Applicants.AddAsync(applicant);
+            await broker.Applicants.AddRangeAsync(applicants);
             await broker.SaveChangesAsync();
 
-            return applicantEntityEntry.Entity;
+            return broker.Applicants.AsQueryable();
         }
     }
 }
