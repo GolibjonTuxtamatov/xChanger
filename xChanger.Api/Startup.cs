@@ -20,7 +20,8 @@ namespace xChanger.Api
         {
             services.AddControllers();
             services.AddDbContext<StorageBroker>();
-            NewMethod(services);
+            services.AddTransient<IStorageBroker, StorageBroker>();
+            services.AddTransient<ILoggingBroker, LoggingBroker>();
 
             var apiInfo = new OpenApiInfo
             {
@@ -34,12 +35,6 @@ namespace xChanger.Api
                     name: "v1",
                     info: apiInfo);
             });
-        }
-
-        private static void NewMethod(IServiceCollection services)
-        {
-            services.AddTransient<IStorageBroker, StorageBroker>();
-            services.AddTransient<ILoggingBroker, LoggingBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
