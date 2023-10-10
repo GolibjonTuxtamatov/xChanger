@@ -11,7 +11,7 @@ namespace xChanger.Api.Brokers.Storages
     {
         public DbSet<Applicant> Applicants { get; set; }
 
-        public async Task<IQueryable<Applicant>> InsertApplicantAsync(IEnumerable<Applicant> applicants)
+        public async Task<IQueryable<Applicant>> InsertApplicantsAsync(IEnumerable<Applicant> applicants)
         {
             using var broker = new StorageBroker(this.configuration);
 
