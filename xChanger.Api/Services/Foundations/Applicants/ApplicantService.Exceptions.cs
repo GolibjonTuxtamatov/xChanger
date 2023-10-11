@@ -21,6 +21,13 @@ namespace xChanger.Api.Services.Foundations.Applicants
             {
                 throw CreateAndLogValidationException(nullApplicantsException);
             }
+            catch (SqlException sqlException)
+            {
+                var failedApplicantsStorageException =
+                    new FailedApplicantsStorageException(sqlException);
+
+                throw CreateAndLogCriticalException(failedApplicantsStorageException);
+            }
         }
 
         private ApplicantsValidationException CreateAndLogValidationException(Xeption exception)
@@ -31,6 +38,16 @@ namespace xChanger.Api.Services.Foundations.Applicants
             this.loggingBroker.LogError(applicantsValidationException);
 
             return applicantsValidationException;
+        }
+
+        private ApplicantsDependencyException CreateAndLogCriticalException(Xeption exception)
+        {
+            var applicantsDependencyException =
+                new ApplicantsDependencyException(exception);
+
+            this.loggingBroker.LogCritical(applicantsDependencyException);
+
+            return applicantsDependencyException;
         }
     }
 }
