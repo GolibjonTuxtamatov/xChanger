@@ -1,9 +1,11 @@
-﻿using Moq;
+﻿using System.Linq.Expressions;
+using Moq;
 using Tynamix.ObjectFiller;
 using xChanger.Api.Brokers.Loggings;
 using xChanger.Api.Brokers.Storages;
 using xChanger.Api.Models.Applicants;
 using xChanger.Api.Services.Foundations.Applicants;
+using Xeptions;
 
 namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
 {
@@ -22,6 +24,9 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
                 this.storageBrokerMock.Object,
                 this.loggingBrokerMock.Object);
         }
+
+        private Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException) =>
+            actualException => actualException.SameExceptionAs(expectedException);
 
         private IQueryable<Applicant> CreateRandomApplicants()
         {
