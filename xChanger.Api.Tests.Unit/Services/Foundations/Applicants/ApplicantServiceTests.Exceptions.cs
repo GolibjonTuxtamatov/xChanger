@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
 using xChanger.Api.Models.Applicants;
@@ -46,6 +47,43 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDuplicateKeyDependencyExceptionOnAddAndLogItAsync()
+        {
+            //given
+            List<Applicant> applicants = CreateRandomApplicants().ToList();
+            var duplicateKeyException = new DuplicateKeyException(GetRandomString());
+
+            var alreadyExistApplicantException =
+                new AlreadyExistApplicantException(duplicateKeyException);
+
+            var expectedApplicantsDependecyValidationException =
+                new ApplicantsDependecyValidationException(alreadyExistApplicantException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertApplicantsAsync(applicants))
+                .ThrowsAsync(duplicateKeyException);
+
+            //when
+            ValueTask<IQueryable<Applicant>> addApplicantTask =
+                this.applicantService.AddApplicantsAsync(applicants);
+
+            //then
+            await Assert.ThrowsAsync<ApplicantsDependecyValidationException>(() =>
+                addApplicantTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertApplicantsAsync(applicants),
+                Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedApplicantsDependecyValidationException))),
+                Times.Once());
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }

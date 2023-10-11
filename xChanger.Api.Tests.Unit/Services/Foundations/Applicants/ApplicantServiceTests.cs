@@ -52,6 +52,9 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
         private SqlException GetSqlError() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
+        private string GetRandomString() =>
+            new MnemonicString().GetValue();
+
         private DateTimeOffset CreateDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
     }
