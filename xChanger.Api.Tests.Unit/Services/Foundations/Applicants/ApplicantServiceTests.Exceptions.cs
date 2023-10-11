@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -84,6 +85,43 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddAndLogItAsync()
+        {
+            //given
+            List<Applicant> applicants = CreateRandomApplicants().ToList();
+            var serviceException = new Exception();
+
+            var failedServiceException =
+                new FailedServiceException(serviceException);
+
+            var expectedApplicantServiceException =
+                new ApplicantServiceException(failedServiceException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertApplicantsAsync(applicants))
+                .ThrowsAsync(serviceException);
+
+            //when
+            ValueTask<IQueryable<Applicant>> addApplicantTask =
+                this.applicantService.AddApplicantsAsync(applicants);
+
+            //then
+            await Assert.ThrowsAsync<ApplicantServiceException>(() =>
+                addApplicantTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertApplicantsAsync(applicants),
+                Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(expectedApplicantServiceException))),
+                Times.Once());
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
