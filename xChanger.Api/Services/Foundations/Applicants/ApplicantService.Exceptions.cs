@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -36,6 +37,13 @@ namespace xChanger.Api.Services.Foundations.Applicants
 
                 throw CreateAndLogDependencyValidationException(alreadyExistApplicantException);
             }
+            catch (Exception serviceException)
+            {
+                var failedServiceException =
+                    new FailedServiceException(serviceException);
+
+                throw CreateAndLogServiceException(failedServiceException);
+            }
         }
 
         private ApplicantsValidationException CreateAndLogValidationException(Xeption exception)
@@ -66,6 +74,16 @@ namespace xChanger.Api.Services.Foundations.Applicants
             this.loggingBroker.LogError(applicantsDependecyValidationException);
 
             return applicantsDependecyValidationException;
+        }
+        
+        private ApplicantServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            var applicantServiceException =
+                new ApplicantServiceException(exception);
+
+            this.loggingBroker.LogError(applicantServiceException);
+
+            return applicantServiceException;
         }
     }
 }
