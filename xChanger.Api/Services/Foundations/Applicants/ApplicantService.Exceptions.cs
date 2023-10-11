@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using xChanger.Api.Models.Applicants;
 using xChanger.Api.Models.Applicants.Exceptions;
@@ -28,6 +29,13 @@ namespace xChanger.Api.Services.Foundations.Applicants
 
                 throw CreateAndLogCriticalException(failedApplicantsStorageException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExistApplicantException =
+                    new AlreadyExistApplicantException(duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(alreadyExistApplicantException);
+            }
         }
 
         private ApplicantsValidationException CreateAndLogValidationException(Xeption exception)
@@ -48,6 +56,16 @@ namespace xChanger.Api.Services.Foundations.Applicants
             this.loggingBroker.LogCritical(applicantsDependencyException);
 
             return applicantsDependencyException;
+        }
+
+        private ApplicantsDependecyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var applicantsDependecyValidationException =
+                new ApplicantsDependecyValidationException(exception);
+
+            this.loggingBroker.LogError(applicantsDependecyValidationException);
+
+            return applicantsDependecyValidationException;
         }
     }
 }
