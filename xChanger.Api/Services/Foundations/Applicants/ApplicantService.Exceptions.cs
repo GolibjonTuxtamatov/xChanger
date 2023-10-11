@@ -75,7 +75,7 @@ namespace xChanger.Api.Services.Foundations.Applicants
 
             return applicantsDependecyValidationException;
         }
-        
+
         private ApplicantServiceException CreateAndLogServiceException(Xeption exception)
         {
             var applicantServiceException =

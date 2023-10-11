@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using xChanger.Api.Brokers.Loggings;
 using xChanger.Api.Brokers.Storages;
 using xChanger.Api.Models.Applicants;
-using xChanger.Api.Models.Applicants.Exceptions;
 
 namespace xChanger.Api.Services.Foundations.Applicants
 {
@@ -13,7 +12,7 @@ namespace xChanger.Api.Services.Foundations.Applicants
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
 
-        public ApplicantService(IStorageBroker storageBroker,ILoggingBroker loggingBroker)
+        public ApplicantService(IStorageBroker storageBroker, ILoggingBroker loggingBroker)
         {
             this.storageBroker = storageBroker;
             this.loggingBroker = loggingBroker;

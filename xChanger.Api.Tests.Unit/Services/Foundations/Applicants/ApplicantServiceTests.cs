@@ -29,7 +29,7 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
                 this.loggingBrokerMock.Object);
         }
 
-        private Expression<Func<Xeption,bool>> SameExceptionAs(Xeption expectedException) =>
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
             actualException => actualException.SameExceptionAs(expectedException);
 
         private IQueryable<Applicant> CreateRandomApplicants()
