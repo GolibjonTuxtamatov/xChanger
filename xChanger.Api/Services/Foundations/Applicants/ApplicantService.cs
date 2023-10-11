@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using xChanger.Api.Brokers.Loggings;
 using xChanger.Api.Brokers.Storages;
 using xChanger.Api.Models.Applicants;
+using xChanger.Api.Models.Applicants.Exceptions;
 
 namespace xChanger.Api.Services.Foundations.Applicants
 {
-    public class ApplicantService : IApplicantService
+    public partial class ApplicantService : IApplicantService
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -18,7 +19,12 @@ namespace xChanger.Api.Services.Foundations.Applicants
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<IQueryable<Applicant>> AddApplicantsAsync(List<Applicant> applicants) =>
-            await this.storageBroker.InsertApplicantsAsync(applicants);
+        public ValueTask<IQueryable<Applicant>> AddApplicantsAsync(List<Applicant> applicants) =>
+            TryCatch(async () =>
+            {
+                ValidateApplicantsNotNull(applicants);
+
+                return await this.storageBroker.InsertApplicantsAsync(applicants);
+            });
     }
 }

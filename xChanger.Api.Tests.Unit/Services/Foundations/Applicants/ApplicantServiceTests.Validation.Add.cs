@@ -15,7 +15,7 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
 
             var nullApplicantsException = new NullApplicantsException();
 
-            ApplicantsValidationException expectedApplicantsValidationException =
+            var expectedApplicantsValidationException =
                 new ApplicantsValidationException(nullApplicantsException);
 
             //when
