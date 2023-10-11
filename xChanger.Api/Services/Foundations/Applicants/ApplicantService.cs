@@ -19,6 +19,6 @@ namespace xChanger.Api.Services.Foundations.Applicants
         }
 
         public async ValueTask<IQueryable<Applicant>> AddApplicantsAsync(List<Applicant> applicants) =>
-            throw new System.NotImplementedException();
+            await this.storageBroker.InsertApplicantsAsync(applicants);
     }
 }
