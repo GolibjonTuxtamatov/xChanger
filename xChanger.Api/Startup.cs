@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using xChanger.Api.Brokers.Loggings;
 using xChanger.Api.Brokers.Storages;
+using xChanger.Api.Services.Foundations.Applicants;
 
 namespace xChanger.Api
 {
@@ -20,6 +21,9 @@ namespace xChanger.Api
         {
             services.AddControllers();
             services.AddDbContext<StorageBroker>();
+
+            services.AddTransient<IApplicantService, ApplicantService>();
+
             AddBrokers(services);
 
             var apiInfo = new OpenApiInfo
