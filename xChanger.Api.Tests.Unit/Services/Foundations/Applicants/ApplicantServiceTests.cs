@@ -1,4 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.Serialization;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Tynamix.ObjectFiller;
 using xChanger.Api.Brokers.Loggings;
@@ -44,6 +48,9 @@ namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants
 
             return filler;
         }
+
+        private SqlException GetSqlError() =>
+            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
         private DateTimeOffset CreateDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
