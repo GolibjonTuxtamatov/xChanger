@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using xChanger.Api.Models.Applicants;
-using xChanger.Api.Models.Applicants.Exceptions;
+using xChanger.Api.Services.Foundations.Applicants.Exceptions;
 using Xunit;
 
 namespace xChanger.Api.Tests.Unit.Services.Foundations.Applicants

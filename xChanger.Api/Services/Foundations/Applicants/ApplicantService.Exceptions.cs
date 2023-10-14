@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using xChanger.Api.Models.Applicants;
-using xChanger.Api.Models.Applicants.Exceptions;
+using xChanger.Api.Services.Foundations.Applicants.Exceptions;
 using Xeptions;
 
 namespace xChanger.Api.Services.Foundations.Applicants

@@ -1,6 +1,6 @@
 ﻿using Xeptions;
 
-namespace xChanger.Api.Models.Applicants.Exceptions
+namespace xChanger.Api.Services.Foundations.Applicants.Exceptions
 {
     public class NullApplicantsException : Xeption
     {
