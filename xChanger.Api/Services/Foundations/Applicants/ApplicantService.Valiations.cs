@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using xChanger.Api.Models.Applicants;
-using xChanger.Api.Models.Applicants.Exceptions;
+using xChanger.Api.Services.Foundations.Applicants.Exceptions;
 
 namespace xChanger.Api.Services.Foundations.Applicants
 {
