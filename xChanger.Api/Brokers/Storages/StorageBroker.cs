@@ -20,5 +20,7 @@ namespace xChanger.Api.Brokers.Storages
 
             optionsBuilder.UseSqlServer(connectionString);
         }
+
+        public override void Dispose() { }
     }
 }
