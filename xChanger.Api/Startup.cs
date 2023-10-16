@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using xChanger.Api.Brokers.Loggings;
+using xChanger.Api.Brokers.Spreadsheets;
 using xChanger.Api.Brokers.Storages;
 using xChanger.Api.Services.Foundations.Applicants;
 
@@ -44,6 +45,7 @@ namespace xChanger.Api
         {
             services.AddTransient<IStorageBroker, StorageBroker>();
             services.AddTransient<ILoggingBroker, LoggingBroker>();
+            services.AddTransient<ISpreadsheetBroker, SpreadsheetBroker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
