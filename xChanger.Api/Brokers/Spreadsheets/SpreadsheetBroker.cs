@@ -26,10 +26,10 @@ namespace xChanger.Api.Brokers.Spreadsheets
                     {
                         Id = Guid.NewGuid(),
                         FirstName = worksheet.Cells[row,1].Value.ToString(),
-                        Lastname = worksheet.Cells[row,1].Value.ToString(),
-                        DateOfBirth = ConvertToDatimeOffset(worksheet.Cells[row,1].Value.ToString()),
-                        Email = worksheet.Cells[row,1].Value.ToString(),
-                        PhoneNumber = worksheet.Cells[row,1].Value.ToString(),
+                        Lastname = worksheet.Cells[row,2].Value.ToString(),
+                        DateOfBirth = ConvertToDatimeOffset(worksheet.Cells[row,3].Value.ToString()),
+                        Email = worksheet.Cells[row,4].Value.ToString(),
+                        PhoneNumber = worksheet.Cells[row,5].Value.ToString(),
                     });
             }
 
