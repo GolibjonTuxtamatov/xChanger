@@ -38,7 +38,9 @@ namespace xChanger.Api.Brokers.Spreadsheets
 
         private DateTimeOffset ConvertToDatimeOffset(string date)
         {
-            DateTime.TryParseExact(date, "dd/MM/yyyy",
+            string[] formats = new string[] { "dd/MM/yyyy", "d/MM/yyyy", "dd/M/yyyy", "d/M/yyyy" };
+
+            DateTime.TryParseExact(date, formats,
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime);
 
             var convertedDate = new DateTimeOffset(parsedDateTime);
